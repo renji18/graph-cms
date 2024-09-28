@@ -37,9 +37,13 @@ const Post = () => {
           <div className="relative lg:sticky top-8">
             <PostWidget
               slug={postDetails?.slug}
-              categories={postDetails?.category?.map(
-                (cat: { slug: string; name: string }) => cat.slug
-              )}
+              categories={
+                Array?.isArray(postDetails?.category)
+                  ? postDetails?.category?.map(
+                      (cat: { slug: string; name: string }) => cat.slug
+                    )
+                  : []
+              }
             />
             <Categories />
           </div>

@@ -2,11 +2,25 @@
 
 import { Post } from "@/utility/type"
 import moment from "moment"
-import React from "react"
+import React, { ReactNode } from "react"
 
 const PostDetail = ({ post }: { post: Post | null }) => {
-  const getContentFragment = (index, text, obj, type) => {
-    let modifiedText = text
+  const getContentFragment = (
+    index: number,
+    text: string | ReactNode[],
+    obj: {
+      type?: string
+      bold?: boolean
+      italic?: boolean
+      underline?: boolean
+      title?: string
+      height?: string
+      width?: string
+      src?: string
+    } = {},
+    type: string | undefined
+  ) => {
+    let modifiedText: ReactNode = text
 
     if (obj) {
       if (obj.bold) {
@@ -26,35 +40,41 @@ const PostDetail = ({ post }: { post: Post | null }) => {
       case "heading-three":
         return (
           <h3 key={index} className="text-xl font-semibold mb-4">
-            {modifiedText.map((item, i) => (
-              <React.Fragment key={i}>{item}</React.Fragment>
-            ))}
+            {Array.isArray(modifiedText)
+              ? modifiedText?.map((item: ReactNode, i: number) => (
+                  <React.Fragment key={i}>{item}</React.Fragment>
+                ))
+              : modifiedText}
           </h3>
         )
       case "paragraph":
         return (
           <p key={index} className="mb-8">
-            {modifiedText.map((item, i) => (
-              <React.Fragment key={i}>{item}</React.Fragment>
-            ))}
+            {Array.isArray(modifiedText)
+              ? modifiedText.map((item: ReactNode, i: number) => (
+                  <React.Fragment key={i}>{item}</React.Fragment>
+                ))
+              : modifiedText}
           </p>
         )
       case "heading-four":
         return (
           <h4 key={index} className="text-md font-semibold mb-4">
-            {modifiedText.map((item, i) => (
-              <React.Fragment key={i}>{item}</React.Fragment>
-            ))}
+            {Array.isArray(modifiedText)
+              ? modifiedText.map((item: ReactNode, i: number) => (
+                  <React.Fragment key={i}>{item}</React.Fragment>
+                ))
+              : modifiedText}
           </h4>
         )
       case "image":
         return (
           <img
             key={index}
-            alt={obj.title}
-            height={obj.height}
-            width={obj.width}
-            src={obj.src}
+            alt={obj?.title || ""}
+            height={obj?.height || ""}
+            width={obj?.width || ""}
+            src={obj?.src || ""}
           />
         )
       default:
@@ -104,13 +124,31 @@ const PostDetail = ({ post }: { post: Post | null }) => {
           </div>
         </div>
         <h1 className="mb-8 text-3xl font-semibold">{post?.title}</h1>
-        {post?.content?.raw.children.map((typeObj, index) => {
-          const child = typeObj.children.map((item, itemIndex) =>
-            getContentFragment(itemIndex, item.text, item, undefined)
-          )
+        {post?.content?.raw.children.map(
+          (
+            typeObj: {
+              type: string
+              children: Array<{
+                text: string
+                type?: string | undefined
+                bold?: boolean | undefined
+                italic?: boolean | undefined
+                underline?: boolean | undefined
+                title?: string | undefined
+                height?: string | undefined
+                width?: string | undefined
+                src?: string | undefined
+              }>
+            },
+            index: number
+          ) => {
+            const child = typeObj.children.map((item, itemIndex: number) =>
+              getContentFragment(itemIndex, item.text || "", item, undefined)
+            )
 
-          return getContentFragment(index, child, typeObj, typeObj.type)
-        })}
+            return getContentFragment(index, child, typeObj, typeObj.type)
+          }
+        )}
       </div>
     </div>
   )

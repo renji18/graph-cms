@@ -5,10 +5,25 @@ export interface Post {
   title: string
   excerpt: string
   featuredImage: { url: string }
-  category: any
+  category:
+    | { name: string; slug: string }
+    | Array<{ name: string; slug: string }>
   content?: {
     raw: {
-      children: Array<any>
+      children: Array<{
+        type: string
+        children: Array<{
+          text: string
+          type?: string | undefined
+          bold?: boolean | undefined
+          italic?: boolean | undefined
+          underline?: boolean | undefined
+          title?: string | undefined
+          height?: string | undefined
+          width?: string | undefined
+          src?: string | undefined
+        }>
+      }>
     }
   }
   id?: string
