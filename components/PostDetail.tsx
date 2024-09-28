@@ -5,7 +5,7 @@ import moment from "moment"
 import React from "react"
 
 const PostDetail = ({ post }: { post: Post | null }) => {
-  const getContentFragment = (index: any, text: any, obj: any, type?: any) => {
+  const getContentFragment = (index, text, obj, type) => {
     let modifiedText = text
 
     if (obj) {
@@ -26,7 +26,7 @@ const PostDetail = ({ post }: { post: Post | null }) => {
       case "heading-three":
         return (
           <h3 key={index} className="text-xl font-semibold mb-4">
-            {modifiedText.map((item: any, i: any) => (
+            {modifiedText.map((item, i) => (
               <React.Fragment key={i}>{item}</React.Fragment>
             ))}
           </h3>
@@ -34,7 +34,7 @@ const PostDetail = ({ post }: { post: Post | null }) => {
       case "paragraph":
         return (
           <p key={index} className="mb-8">
-            {modifiedText.map((item: any, i: any) => (
+            {modifiedText.map((item, i) => (
               <React.Fragment key={i}>{item}</React.Fragment>
             ))}
           </p>
@@ -42,7 +42,7 @@ const PostDetail = ({ post }: { post: Post | null }) => {
       case "heading-four":
         return (
           <h4 key={index} className="text-md font-semibold mb-4">
-            {modifiedText.map((item: any, i: any) => (
+            {modifiedText.map((item, i) => (
               <React.Fragment key={i}>{item}</React.Fragment>
             ))}
           </h4>
@@ -105,8 +105,8 @@ const PostDetail = ({ post }: { post: Post | null }) => {
         </div>
         <h1 className="mb-8 text-3xl font-semibold">{post?.title}</h1>
         {post?.content?.raw.children.map((typeObj, index) => {
-          const child = typeObj.children.map((item: any, itemIndex: any) =>
-            getContentFragment(itemIndex, item.text, item)
+          const child = typeObj.children.map((item, itemIndex) =>
+            getContentFragment(itemIndex, item.text, item, undefined)
           )
 
           return getContentFragment(index, child, typeObj, typeObj.type)

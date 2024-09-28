@@ -33,16 +33,13 @@ export async function POST(req: Request) {
   `
 
   try {
-    const result = graphQLClient.request(query, {
+    graphQLClient.request(query, {
       comment,
       name,
       email,
       slug,
     })
-    return new Response(
-      JSON.stringify({ message: "Success" }),
-      { status: 200 }
-    )
+    return new Response(JSON.stringify({ message: "Success" }), { status: 200 })
   } catch (err) {
     return new Response(JSON.stringify({ error: err }), {
       status: 500,

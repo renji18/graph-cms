@@ -1,7 +1,6 @@
-'use client'
+"use client"
 
 import React, { useEffect, useState } from "react"
-import Loader from "@/components/Loader"
 import { usePathname } from "next/navigation"
 import Categories from "@/components/Categories"
 import PostCard from "@/components/PostCard"
@@ -11,8 +10,6 @@ import { getCategoryPost } from "@/app/services"
 const CategoryPost = () => {
   const location = usePathname()
   const [posts, setPosts] = useState<Array<{ node: Post }> | null>(null)
-
-  const slug = location?.split("/")[2]
 
   useEffect(() => {
     const getPostData = async () => {
@@ -26,7 +23,7 @@ const CategoryPost = () => {
     <div className="container mx-auto px-10 mb-8">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="col-span-1 lg:col-span-8">
-          {posts?.map((post, index) => (
+          {posts?.map((post) => (
             <PostCard key={post.node.title} post={post.node} />
           ))}
         </div>
