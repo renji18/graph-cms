@@ -5,9 +5,7 @@ export interface Post {
   title: string
   excerpt: string
   featuredImage: { url: string }
-  category:
-    | { name: string; slug: string }
-    | Array<{ name: string; slug: string }>
+  category: any
   content?: {
     raw: {
       children: Array<any>
